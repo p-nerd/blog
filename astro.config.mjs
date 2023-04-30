@@ -28,7 +28,7 @@ export default defineConfig(
                 },
             ],
         },
-        site: "http://localhost:3000/",
+        site: "https://p-nerd.github.io/blog",
         integrations: [sitemap()],
     }
 );
