@@ -28,10 +28,8 @@ export default defineConfig(
                 },
             ],
         },
-        site: {
-            url: "https://p-nerd.github.io/blog",
-            prefix: "/blog/",
-        },
+        site: "https://p-nerd.github.io/blog",
+        base: "/blog",
         integrations: [sitemap()],
     }
 );
