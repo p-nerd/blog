@@ -5,8 +5,6 @@ import Preview from "@components/blog/preview";
 
 const markdownFiles = await Astro.glob("../content/**/*.md");
 const posts = published(markdownFiles);
-
-console.log(posts);
 ---
 
 <Blog>
