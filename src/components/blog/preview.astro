@@ -7,7 +7,7 @@ const { site } = Astro;
 <div class="py-6 flex flex-row-reverse gap-6 md:gap-10 items-start">
     {
         post.img && (
-            <a href={`/${post.slug}`} class="shrink-0">
+            <a href={`${site}${post.slug}`} class="shrink-0">
                 <img
                     src={((site as any) + post.img) as any}
                     alt={post.title}
@@ -20,7 +20,7 @@ const { site } = Astro;
     }
     <div class="flex flex-col gap-4">
         <h2 class="text-2xl font-bold">
-            <a class="hover:underline" href={`/${post.slug}`}>{post.title}</a>
+            <a class="hover:underline" href={`${site}${post.slug}`}>{post.title}</a>
         </h2>
         <p class="text-sm text-base-content/70">{post.desc}</p>
     </div>

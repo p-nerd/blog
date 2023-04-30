@@ -1,11 +1,12 @@
 ---
 import { nav } from "@data/nav";
+const { site } = Astro;
 ---
 
 <div class="navbar bg-base-100">
     <div class="flex-1">
         <a
-            href="/"
+            href={site}
             class="p-2 hover:underline md:text-2xl font-bold flex gap-4 items-center"
         >
             Shihab's Blog
