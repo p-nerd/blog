@@ -28,7 +28,7 @@ Problem এর বাংলা হলো সমস্যা আর Solving �
 
 C/C++ implementation: https://codeforces.com/contest/4/submission/159295024
 
-```c++
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 

@@ -1,6 +1,7 @@
 ---
 import type { Post } from "@data/post";
 const post: Post = Astro.props.post;
+const { site } = Astro;
 ---
 
 <div class="py-6 flex flex-row-reverse gap-6 md:gap-10 items-start">
@@ -8,7 +9,7 @@ const post: Post = Astro.props.post;
         post.img && (
             <a href={`/${post.slug}`} class="shrink-0">
                 <img
-                    src={post.img as any}
+                    src={((site as any) + post.img) as any}
                     alt={post.title}
                     width="160"
                     height="160"

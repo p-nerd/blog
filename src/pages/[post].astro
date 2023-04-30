@@ -22,6 +22,8 @@ const {
     post: { Content },
     post,
 } = Astro.props;
+
+const { site } = Astro;
 ---
 
 <Blog title={post.title} desc={post.desc} img={post.img ? post.img : null}>
@@ -31,7 +33,7 @@ const {
                 post.img && post.imgWidth && post.imgHeight ? (
                     <figure class="flex justify-center">
                         <img
-                            src={post.img}
+                            src={site + post.img}
                             alt={post.title}
                             width={post.imgWidth}
                             height={post.imgHeight}
@@ -42,7 +44,7 @@ const {
                     post.img && (
                         <figure class="flex justify-center">
                             <img
-                                src={post.img}
+                                src={site + post.img}
                                 alt={post.title}
                                 class="rounded bg-base-200"
                             />
