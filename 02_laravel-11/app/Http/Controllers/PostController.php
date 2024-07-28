@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use Illuminate\Http\Request;
+
 /*use App\Models\Post;*/
 /*use Illuminate\Http\Request;*/
 
@@ -10,10 +13,13 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $category = $request->query('category');
+
         return view('posts/index', [
-            'posts' => [],
+            'categories' => Category::all(),
+            'category' => Category::where('slug', $category)->first(),
         ]);
     }
 
