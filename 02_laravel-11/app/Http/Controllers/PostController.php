@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 /*use App\Models\Post;*/
@@ -20,6 +21,7 @@ class PostController extends Controller
         return view('posts/index', [
             'categories' => Category::all(),
             'category' => Category::where('slug', $category)->first(),
+            'posts' => Post::query()->paginate(),
         ]);
     }
 

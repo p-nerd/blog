@@ -56,7 +56,25 @@
         </div>
     </header>
 
-    <main class="mx-auto mt-6 max-w-6xl space-y-6 lg:mt-20">
+    <main class="mx-auto mt-6 mb-12 max-w-6xl space-y-6 lg:mt-20">
+        @if (count($posts) >= 1)
+            <x-posts.featured-card :post="$posts[0]" />
+        @endif
+        <div class="lg:grid lg:grid-cols-2">
+            @if (count($posts) >= 2)
+                <x-posts.card :post="$posts[1]" />
+            @endif
+            @if (count($posts) >= 3)
+                <x-posts.card :post="$posts[2]" />
+            @endif
+        </div>
+        <div class="lg:grid lg:grid-cols-3">
+            @foreach ($posts->skip(3) as $post)
+                <x-posts.card :post="$post" />
+            @endforeach
+        </div>
+
+        {{ $posts->links() }}
     </main>
 
 </x-layout>
