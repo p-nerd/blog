@@ -34,13 +34,13 @@ class CommentController extends Controller
     public function store(Post $post, Request $request): RedirectResponse
     {
         $validated = Validator::make($request->all(), [
-            "body" => ["string", ["required"]]
+            'body' => ['string', ['required']],
         ])->validate();
 
         Comment::query()->create([
-            "post_id" => $post->id,
-            "user_id" => Auth::id(),
-            "body" => $validated["body"],
+            'post_id' => $post->id,
+            'user_id' => Auth::id(),
+            'body' => $validated['body'],
         ]);
 
         return back();

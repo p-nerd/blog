@@ -13,27 +13,27 @@ class Post extends Model
     use HasFactory, ModelTrait;
 
     protected $fillable = [
-        "title",
-        "excerpt",
-        "body",
-        "published_at",
-        "slug",
-        "thumbnail"
+        'title',
+        'excerpt',
+        'body',
+        'published_at',
+        'slug',
+        'thumbnail',
     ];
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, "user_id");
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, "category_id");
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class, "post_id");
+        return $this->hasMany(Comment::class, 'post_id');
     }
 
     /** @noinspection PhpUnused */
@@ -42,8 +42,8 @@ class Post extends Model
         $query->when(
             $filters['search'] ?? false,
             fn ($query, $search) => $query->where(
-                fn ($query) => $query->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('body', 'like', '%' . $search . '%')
+                fn ($query) => $query->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('body', 'like', '%'.$search.'%')
             )
         );
 

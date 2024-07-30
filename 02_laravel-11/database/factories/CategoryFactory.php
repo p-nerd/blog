@@ -9,16 +9,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CategoryFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            "name" => ucwords(fake()->word()),
-            "slug" => fake()->unique()->slug()
+            'name' => ucwords(fake()->word()),
+            'slug' => fake()->unique()->slug(),
         ];
     }
 }

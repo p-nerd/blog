@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Category;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,19 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
 
             $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Category::class);
+            $table->foreignIdFor(Post::class);
 
-            $table->string('title');
-            $table->text('excerpt');
             $table->text('body');
-            $table->timestamp('published_at')->nullable();
-            $table->boolean('is_draft')->default(true);
-            $table->string('slug')->unique();
-            $table->string('thumbnail')->nullable();
 
             $table->timestamps();
         });
@@ -36,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('comments');
     }
 };
