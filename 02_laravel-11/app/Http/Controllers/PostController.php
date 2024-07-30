@@ -16,12 +16,32 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $category = $request->query('category');
+        $categories = Category::query()
+            ->get();
+
+        $query = Post::query();
+
+        $author = $request->query('author');
+        if ($author) {
+            $query = $query->where('user_id', $author);
+        }
+
+        $category = Category::where('slug', $request->query('category'))->first();
+        if ($category) {
+            $query = $query->where('category_id', $category->id);
+        }
+
+        $search = $request->query('search');
+        if ($search) {
+            $query = $query->where('title', 'like', '%'.$search.'%');
+        }
+
+        $posts = $query->paginate(6);
 
         return view('posts/index', [
-            'categories' => Category::all(),
-            'category' => Category::where('slug', $category)->first(),
-            'posts' => Post::query()->paginate(),
+            'posts' => $posts,
+            'category' => $category,
+            'categories' => $categories,
         ]);
     }
 
