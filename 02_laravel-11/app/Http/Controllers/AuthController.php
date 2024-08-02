@@ -6,24 +6,23 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class AuthController extends Controller
 {
     public function register(): View
     {
-        return view('auths.register');
+        return view('auths/register');
     }
 
     public function store(Request $request): string
     {
         $payload = $request->validate([
-            'name' => ['string', 'required', 'max:255'],
-            'username' => ['string', 'required', 'max:255', 'min:3', 'unique:users,username'],
-            'email' => ['email', 'required', 'max:255', 'unique:users,email'],
-            'password' => ['string', 'required', 'max:255', 'min:6'],
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'min:3', 'unique:users,username'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'confirmed', Password::defaults()],
         ]);
 
         $user = User::create($payload);
@@ -41,37 +40,30 @@ class AuthController extends Controller
 
     public function authenticate(Request $request): RedirectResponse
     {
-        $payload = $request->validate([
-            'email' => ['email', 'required', 'max:255'],
-            'password' => ['string', 'required', 'max:255', 'min:6'],
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
         ]);
 
-        $user = User::query()
-            ->where('email', $payload['email'])
-            ->first();
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
 
-        if (! $user) {
             return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors(['email' => 'Your provided credentials could not be verified.']);
+                ->intended('/')
+                ->with('success', 'You are logged in.');
         }
 
-        if (! Hash::check($request->password, $user->password)) {
-            return back()
-                ->withInput()
-                ->withErrors(['password' => 'Your provided credentials could not be verified.']);
-        }
-
-        Auth::login($user);
-        Session::regenerate();
-
-        return redirect('/')->with('success', 'Your are login');
+        return back()
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => 'The provided credentials do not match our records.']);
     }
 
-    public function destroy(): RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
         Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect('/')->with('success', 'Goodbye!');
     }
