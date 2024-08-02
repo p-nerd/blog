@@ -39,6 +39,24 @@ Route::middleware(['auth'])->group(function () {
 Route::prefix('/profile')->group(function () {
     Route::get('/', [ProfileController::class, 'show'])
         ->name('profile');
+
+    Route::get('/edit', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+    Route::patch('/', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::get('/posts/create', [ProfileController::class, 'postsCreate'])
+        ->name('profile.posts.create');
+    Route::post('/posts', [ProfileController::class, 'postsStore'])
+        ->name('profile.posts.store');
+
+    Route::get('/posts/{post}/edit', [ProfileController::class, 'postsEdit'])
+        ->name('profile.posts.edit');
+    Route::patch('/posts/{post}', [ProfileController::class, 'postsUpdate'])
+        ->name('profile.posts.update');
+
+    Route::delete('/posts/{post}', [ProfileController::class, 'postsDestroy'])
+        ->name('profile.posts.destroy');
 });
 
 Route::prefix('/newsletters')->group(function () {

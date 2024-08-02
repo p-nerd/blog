@@ -14,7 +14,7 @@ class HomeController extends Controller
             ->get();
 
         $category = Category::query()
-            ->where('slug', $request->query('category'))
+            ->where('username', $request->query('category'))
             ->first();
 
         $posts = Post::query()

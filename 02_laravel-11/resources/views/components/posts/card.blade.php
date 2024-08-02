@@ -38,7 +38,7 @@
 
             <footer class="mt-8 flex items-center justify-between">
                 <a
-                    href="{{ route('home', ['author' => $post->user->id]) }}"
+                    href="{{ route('home', ['author' => $post->user->username]) }}"
                     class="flex items-center text-sm"
                 >
                     <img

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +19,16 @@ class Post extends Model
         'published_at',
         'slug',
         'thumbnail',
+        'status',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'published_at' => 'datetime',
+            'status' => PostStatus::class,
+        ];
+    }
 
     public function user(): BelongsTo
     {

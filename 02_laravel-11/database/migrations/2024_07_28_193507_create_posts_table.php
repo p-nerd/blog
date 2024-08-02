@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PostStatus;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -23,9 +24,10 @@ return new class extends Migration
             $table->text('excerpt');
             $table->text('body');
             $table->timestamp('published_at')->nullable();
-            $table->boolean('is_draft')->default(true);
             $table->string('slug')->unique();
             $table->string('thumbnail')->nullable();
+
+            $table->string('status')->default(PostStatus::DRAFTED->value);
 
             $table->timestamps();
         });

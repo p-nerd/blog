@@ -10,6 +10,7 @@ class ProfileController extends Controller
     {
         return view('profile/show', [
             'user' => $request->user(),
+            'posts' => $request->user()->posts,
         ]);
     }
 }
