@@ -18,31 +18,36 @@ Route::middleware(['guest'])->group(function () {
         ->name('login.store');
 });
 
+Route::prefix('/email')->middleware(['auth', 'unverified'])->group(function () {
+    Route::get('/verify', [AuthController::class, 'verificationEmailShow'])
+        ->name('verification.notice');
+    Route::get('/verify/{id}/{hash}', [AuthController::class, 'verificationEmail'])
+        ->middleware(['signed'])
+        ->name('verification.verify');
+    Route::post('/verification-notification', [AuthController::class, 'verificationEmailSend'])
+        ->middleware(['throttle:6,1'])
+        ->name('verification.send');
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'destroy'])
         ->name('logout');
 });
 
-// email verification routes
-Route::middleware(['auth', 'unverified'])->group(function () {
-    Route::get('/email/verify', [AuthController::class, 'verificationEmailShow'])
-        ->name('verification.notice');
-    Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verificationEmail'])
-        ->middleware(['signed'])
-        ->name('verification.verify');
-    Route::post('/email/verification-notification', [AuthController::class, 'verificationEmailSend'])
-        ->middleware(['throttle:6,1'])
-        ->name('verification.send');
+// public routes
+Route::prefix('/newsletters')->group(function () {
+    Route::post('/', [NewslettersController::class, 'store'])
+        ->name('newsletters.store');
 });
 
-// public routes
-Route::post('/newsletters', [NewslettersController::class, 'store'])
-    ->name('newsletters.store');
+Route::prefix('/')->group(function () {
+    Route::get('/', [PostController::class, 'index'])
+        ->name('posts');
+    Route::get('/{post:slug}', [PostController::class, 'show'])
+        ->name('posts.show');
+});
 
-Route::get('/', [PostController::class, 'index'])
-    ->name('posts');
-Route::get('/{post:slug}', [PostController::class, 'show'])
-    ->name('posts.show');
-Route::post('/{post}/comments', [PostController::class, 'commentsStore'])
-    ->middleware(['auth', 'verified'])
-    ->name('posts.comments.store');
+Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
+    Route::post('/{post}/comments', [PostController::class, 'commentsStore'])
+        ->name('posts.comments.store');
+});
