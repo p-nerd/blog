@@ -3,38 +3,23 @@
         <h1 class="text-4xl">Latest <span class="text-blue-500">Laravel 11</span> News</h1>
         <div class="mt-4 space-y-2 lg:space-x-4 lg:space-y-0">
             <!--  Category -->
-            <div class="relative flex w-32 items-center rounded-xl bg-gray-100 lg:inline-flex">
-                <x-dropdown.container>
-                    <x-slot name="trigger">
-                        <div class="flex appearance-none bg-transparent py-2 pl-3 pr-9 text-left text-sm font-semibold">
-                            <button>{{ ucwords($category?->name ?? 'Categories') }}</button>
-                            <x-icons.down-arrow class="pointer-events-none absolute" style="right: 12px" />
-                        </div>
-                    </x-slot>
-                    <div>
-                        <x-dropdown.item href="/" :active="!$category">
-                            All
-                        </x-dropdown.item>
-                        @foreach ($categories as $c)
-                            <x-dropdown.item href="{{ route('posts', ['category' => $c->slug]) }}" :active="$category?->slug === $c->slug">
-                                {{ ucwords($c->name) }}
-                            </x-dropdown.item>
-                        @endforeach
-                    </div>
-                </x-dropdown.container>
-            </div>
-            <!-- Other Filters -->
             <div class="relative flex items-center rounded-xl bg-gray-100 lg:inline-flex">
                 <label>
-                    <select class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold">
-                        <option value="category" disabled selected>Other Filters</option>
-                        <option value="foo">Foo</option>
-                        <option value="bar">Bar</option>
+                    <select name="category"
+                        class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold"
+                        x-data="{}"
+                        @change="window.location.href = $event.target.options[$event.target.selectedIndex].getAttribute('x-data-href')">
+                        @foreach ($categories as $c)
+                            <option value="{{ $c->slug }}"
+                                x-data-href="{{ route('posts', ['category' => $c->slug]) }}"
+                                {{ $category?->slug === $c->slug ? 'selected' : '' }}>
+                                {{ ucwords($c->name) }}
+                            </option>
+                        @endforeach
                     </select>
                 </label>
                 <x-icons.down-arrow class="pointer-events-none absolute" style="right: 12px" />
             </div>
-
             <!-- Search -->
             <div class="relative flex items-center rounded-xl bg-gray-100 px-3 py-2 lg:inline-flex">
                 <form method="GET" action="{{ route('posts') }}">
