@@ -9,6 +9,10 @@
                         class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold"
                         x-data="{}"
                         @change="window.location.href = $event.target.options[$event.target.selectedIndex].getAttribute('x-data-href')">
+                        <option value="" x-data-href="{{ route('posts') }}"
+                            {{ $category === null ? 'selected' : '' }}>
+                            All
+                        </option>
                         @foreach ($categories as $c)
                             <option value="{{ $c->slug }}"
                                 x-data-href="{{ route('posts', ['category' => $c->slug]) }}"

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewslettersController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,7 @@ Route::post('/logout', [AuthController::class, 'destroy'])
     ->name('logout');
 
 // public routes
-Route::post('/newsletters', fn () => 'newsletters')
+Route::post('/newsletters', [NewslettersController::class, 'store'])
     ->name('newsletters.store');
 
 Route::get('/', [PostController::class, 'index'])

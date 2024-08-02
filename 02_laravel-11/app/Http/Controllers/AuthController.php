@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,13 +30,15 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        event(new Registered($user));
+
         return redirect('/')->with('success', 'Your account has been created.');
     }
 
     public function login()
     {
 
-        return view('auth.login');
+        return view('auths.login');
     }
 
     public function authenticate(Request $request): RedirectResponse
