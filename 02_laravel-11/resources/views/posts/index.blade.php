@@ -1,4 +1,4 @@
-<x-layout>
+<x-site-layout>
     <header class="mx-auto mt-20 max-w-xl text-center">
         <h1 class="text-4xl">Latest <span class="text-blue-500">Laravel 11</span> News</h1>
         <div class="mt-4 space-y-2 lg:space-x-4 lg:space-y-0">
@@ -39,7 +39,6 @@
             </div>
         </div>
     </header>
-
     <main class="mx-auto mt-6 mb-12 max-w-6xl space-y-6 lg:mt-20">
         @if (count($posts) >= 1)
             <x-posts.featured-card :post="$posts[0]" />
@@ -57,8 +56,6 @@
                 <x-posts.card :post="$post" />
             @endforeach
         </div>
-
         {{ $posts->links() }}
     </main>
-
-</x-layout>
+</x-site-layout>

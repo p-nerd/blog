@@ -4,20 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function register(): View
+    public function register()
     {
         return view('auths/register');
     }
 
-    public function store(Request $request): string
+    public function store(Request $request)
     {
         $payload = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -32,7 +31,8 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-        return redirect('/')->with('success', 'Your account has been created.');
+        return redirect('/')
+            ->with('success', 'Your account has been created.');
     }
 
     public function login()
@@ -41,7 +41,7 @@ class AuthController extends Controller
         return view('auths.login');
     }
 
-    public function authenticate(Request $request): RedirectResponse
+    public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -61,13 +61,38 @@ class AuthController extends Controller
             ->withErrors(['email' => 'The provided credentials do not match our records.']);
     }
 
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('success', 'Goodbye!');
+        return redirect('/')
+            ->with('success', 'Goodbye!');
+    }
+
+    public function verificationEmailShow()
+    {
+        return view('auths.verify-email');
+    }
+
+    public function verificationEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+
+        return redirect('/')
+            ->with('success', 'Your email verifed');
+    }
+
+    public function verificationEmailSend(Request $request)
+    {
+        $request
+            ->user()
+            ->sendEmailVerificationNotification();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Verification link sent!');
     }
 }

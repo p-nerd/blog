@@ -17,7 +17,19 @@ Route::post('/login', [AuthController::class, 'authenticate'])
     ->name('login.store');
 
 Route::post('/logout', [AuthController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])
     ->name('logout');
+
+// email verification routes
+Route::get('/email/verify', [AuthController::class, 'verificationEmailShow'])
+    ->middleware('auth')
+    ->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verificationEmail'])
+    ->middleware(['auth', 'signed'])
+    ->name('verification.verify');
+Route::post('/email/verification-notification', [AuthController::class, 'verificationEmailSend'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
 
 // public routes
 Route::post('/newsletters', [NewslettersController::class, 'store'])

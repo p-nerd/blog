@@ -1,4 +1,4 @@
-<x-layout>
+<x-site-layout>
     <main class="max-w-lg px-6 py-8 mx-auto mt-10 bg-gray-100 border border-gray-200 p-6 rounded-xl">
         <h1 class="text-center font-bold text-xl">Login</h1>
         <form method="POST" action="{{ route('login') }}" class="mt-10">
@@ -37,4 +37,4 @@
             @endif
         </form>
     </main>
-</x-layout>
+</x-site-layout>
