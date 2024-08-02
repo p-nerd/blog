@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // public routes
-Route::prefix('/profile')->group(function () {
+Route::prefix('/profile')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [ProfileController::class, 'show'])
         ->name('profile');
 

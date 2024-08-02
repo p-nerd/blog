@@ -49,7 +49,7 @@
                 >
                     <div>
                         <a
-                            class="text-lg font-medium"
+                            class="text-lg font-medium underline"
                             href="{{ route('home.show', $post) }}"
                         >
                             {{ $post->title }}
@@ -62,11 +62,18 @@
                         class="flex items-center justify-between space-x-2 text-sm"
                     >
                         <div>
-                            <p
-                                class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border px-3 text-sm font-medium"
+                            <a
+                                href="{{ route('profile', ['category' => $post->category->slug]) }}"
+                                class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border px-3 text-sm font-medium underline"
+                            >
+                                {{ $post->category->name }}
+                            </a>
+                            <a
+                                href="{{ route('profile', ['published_on' => urlencode($post->published_at->format('Y-m-d'))]) }}"
+                                class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border px-3 text-sm font-medium underline"
                             >
                                 {{ $post->published_at->format('d F, Y') }}
-                            </p>
+                            </a>
                             <p
                                 class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border px-3 text-sm font-medium"
                             >
@@ -81,6 +88,12 @@
                                     : \App\Enums\PostStatus::PUBLISHED->value;
                             @endphp
 
+                            <a
+                                href="{{ route('home.show', $post) }}"
+                                class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border px-3 text-sm font-medium underline"
+                            >
+                                View
+                            </a>
                             <form
                                 action="{{ route('profile.posts.update', $post) }}"
                                 method="post"
@@ -101,7 +114,7 @@
                             </form>
                             <a
                                 href="{{ route('profile.posts.edit', $post) }}"
-                                class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border px-3 text-sm font-medium"
+                                class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border px-3 text-sm font-medium underline"
                             >
                                 Edit
                             </a>
