@@ -91,8 +91,7 @@ class AuthController extends Controller
             ->user()
             ->sendEmailVerificationNotification();
 
-        return redirect()
-            ->back()
+        return redirect('/')
             ->with('success', 'Verification link sent!');
     }
 }

@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     {
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
+                ->greeting("Hello {$notifiable?->name}!")
                 ->subject('Verify Email Address - '.config('app.name'))
                 ->line('Click the button below to verify your email address.')
                 ->action('Verify Email Address', $url);
