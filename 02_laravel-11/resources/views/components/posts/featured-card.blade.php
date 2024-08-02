@@ -38,7 +38,7 @@
 
             <footer class="mt-8 flex items-center justify-between">
                 <a
-                    href="{{ route('posts', ['author' => $post->user->id]) }}"
+                    href="{{ route('home', ['author' => $post->user->id]) }}"
                     class="flex items-center text-sm"
                 >
                     <img
@@ -53,7 +53,7 @@
 
                 <div class="hidden lg:block">
                     <a
-                        href="{{ route('posts.show', $post) }}"
+                        href="{{ route('home.show', $post) }}"
                         class="rounded-full bg-gray-200 px-8 py-2 text-xs font-semibold transition-colors duration-300 hover:bg-gray-300"
                     >
                         Read More

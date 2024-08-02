@@ -11,7 +11,7 @@
     <body class="px-6 py-8">
         <nav class="md:flex md:items-center md:justify-between">
             <div>
-                <a href="{{ route('posts') }}">
+                <a href="{{ route('home') }}">
                     <img
                         src="{{ url('/images/logo.svg') }}"
                         alt="Laracasts Logo"
@@ -23,7 +23,9 @@
 
             <div class="mt-8 flex items-center gap-6 md:mt-0">
                 @auth
-                    Welcome, {{ auth()->user()->name }}
+                    <a href="{{ route('profile') }}">
+                        Welcome, {{ auth()->user()->name }}
+                    </a>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button

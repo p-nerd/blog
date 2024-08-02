@@ -19,7 +19,7 @@
                     >
                         <option
                             value=""
-                            x-data-href="{{ route('posts') }}"
+                            x-data-href="{{ route('home') }}"
                             {{ $category === null ? 'selected' : '' }}
                         >
                             All
@@ -27,7 +27,7 @@
                         @foreach ($categories as $c)
                             <option
                                 value="{{ $c->slug }}"
-                                x-data-href="{{ route('posts', ['category' => $c->slug]) }}"
+                                x-data-href="{{ route('home', ['category' => $c->slug]) }}"
                                 {{ $category?->slug === $c->slug ? 'selected' : '' }}
                             >
                                 {{ ucwords($c->name) }}
@@ -44,7 +44,7 @@
             <div
                 class="relative flex items-center rounded-xl bg-gray-100 px-3 py-2 lg:inline-flex"
             >
-                <form method="GET" action="{{ route('posts') }}">
+                <form method="GET" action="{{ route('home') }}">
                     @if (request('category'))
                         <input
                             type="hidden"

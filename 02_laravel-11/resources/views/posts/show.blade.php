@@ -22,7 +22,7 @@
             <div class="col-span-8">
                 <div class="mb-6 hidden justify-between lg:flex">
                     <a
-                        href="{{ route('posts') }}"
+                        href="{{ route('home') }}"
                         class="relative inline-flex items-center text-lg transition-colors duration-300 hover:text-blue-500"
                     >
                         <svg
@@ -76,7 +76,7 @@
                     </p>
                 @endauth
 
-                @foreach ($post->comments as $comment)
+                @foreach ($comments as $comment)
                     <x-posts.comment :comment="$comment" />
                 @endforeach
             </section>

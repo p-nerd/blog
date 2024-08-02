@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewslettersController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // auths routes
@@ -35,19 +36,24 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // public routes
+Route::prefix('/profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'show'])
+        ->name('profile');
+});
+
 Route::prefix('/newsletters')->group(function () {
     Route::post('/', [NewslettersController::class, 'store'])
         ->name('newsletters.store');
 });
 
 Route::prefix('/')->group(function () {
-    Route::get('/', [PostController::class, 'index'])
-        ->name('posts');
-    Route::get('/{post:slug}', [PostController::class, 'show'])
-        ->name('posts.show');
+    Route::get('/', [HomeController::class, 'index'])
+        ->name('home');
+    Route::get('/{post:slug}', [HomeController::class, 'show'])
+        ->name('home.show');
 });
 
 Route::prefix('/')->middleware(['auth', 'verified'])->group(function () {
-    Route::post('/{post}/comments', [PostController::class, 'commentsStore'])
-        ->name('posts.comments.store');
+    Route::post('/{post}/comments', [HomeController::class, 'commentsStore'])
+        ->name('home.comments.store');
 });

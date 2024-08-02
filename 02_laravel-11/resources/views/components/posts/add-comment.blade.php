@@ -3,7 +3,7 @@
 ])
 
 <form
-    action="{{ route('posts.comments.store', $post) }}"
+    action="{{ route('home.comments.store', $post) }}"
     method="POST"
     class="flex flex-col gap-5 rounded-xl border border-gray-200 bg-gray-100 p-6"
 >
