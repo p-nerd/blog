@@ -24,20 +24,15 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'confirmed', Password::defaults()],
         ]);
-
         $user = User::create($payload);
-
         Auth::login($user);
-
         event(new Registered($user));
 
-        return redirect('/')
-            ->with('success', 'Your account has been created.');
+        return redirect('/')->with('success', 'Your account has been created.');
     }
 
     public function login()
     {
-
         return view('auths.login');
     }
 
@@ -47,29 +42,25 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
-
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             return redirect()
-                ->intended('/')
-                ->with('success', 'You are logged in.');
-        }
+                ->back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => 'The provided credentials do not match our records.']);
 
-        return back()
-            ->withInput($request->only('email'))
-            ->withErrors(['email' => 'The provided credentials do not match our records.']);
+        }
+        $request->session()->regenerate();
+
+        return redirect('/')->with('success', 'You are logged in.');
     }
 
     public function destroy(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')
-            ->with('success', 'Goodbye!');
+        return redirect('/')->with('success', 'Goodbye!');
     }
 
     public function verificationEmailShow()
@@ -81,17 +72,14 @@ class AuthController extends Controller
     {
         $request->fulfill();
 
-        return redirect('/')
-            ->with('success', 'Your email verifed');
+        return redirect('/')->with('success', 'Your email verified');
+
     }
 
     public function verificationEmailSend(Request $request)
     {
-        $request
-            ->user()
-            ->sendEmailVerificationNotification();
+        $request->user()->sendEmailVerificationNotification();
 
-        return redirect('/')
-            ->with('success', 'Verification link sent!');
+        return redirect('/')->with('success', 'Verification link sent!');
     }
 }

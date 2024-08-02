@@ -10,40 +10,24 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::query()
-            ->get();
-
-        $query = Post::query();
-
-        $author = $request->query('author');
-        if ($author) {
-            $query = $query->where('user_id', $author);
-        }
-
+        $categories = Category::all();
         $category = Category::where('slug', $request->query('category'))->first();
-        if ($category) {
-            $query = $query->where('category_id', $category->id);
-        }
 
-        $search = $request->query('search');
-        if ($search) {
-            $query = $query->where('title', 'like', '%'.$search.'%');
-            $query = $query->orWhere('body', 'like', '%'.$search.'%');
-        }
+        $posts = Post::query()
+            ->when($request->query('author'), fn ($q, $a) => $q
+                ->where('user_id', $a))
+            ->when($category, fn ($q, $c) => $q
+                ->where('category_id', $c->id))
+            ->when($request->query('search'), fn ($q, $s) => $q
+                ->where('title', 'like', '%'.$s.'%')
+                ->orWhere('body', 'like', '%'.$s.'%'))
+            ->paginate(6);
 
-        $posts = $query->paginate(6);
-
-        return view('posts/index', [
-            'posts' => $posts,
-            'category' => $category,
-            'categories' => $categories,
-        ]);
+        return view('posts/index', compact('categories', 'category', 'posts'));
     }
 
     public function show(Post $post)
     {
-        return view('posts/show', [
-            'post' => $post,
-        ]);
+        return view('posts/show', compact('post'));
     }
 }

@@ -11,9 +11,12 @@ class EnsureEmailIsNotVerified
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->hasVerifiedEmail()) {
-            return redirect('/')
-                ->with('success', 'Your email is already verified');
+        /**
+         * @var mixed $user
+         */
+        $user = Auth::user();
+        if (Auth::check() && $user->hasVerifiedEmail()) {
+            return redirect('/')->with('success', 'Your email is already verified');
         }
 
         return $next($request);

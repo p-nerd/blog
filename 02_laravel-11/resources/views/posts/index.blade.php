@@ -39,7 +39,7 @@
             </div>
         </div>
     </header>
-    <main class="mx-auto mt-6 mb-12 max-w-6xl space-y-6 lg:mt-20">
+    <main class="mx-auto mb-12 mt-6 max-w-6xl space-y-6 lg:mt-20">
         @if (count($posts) >= 1)
             <x-posts.featured-card :post="$posts[0]" />
         @endif

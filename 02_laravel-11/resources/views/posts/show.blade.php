@@ -1,12 +1,12 @@
 <x-site-layout>
-    <main class="max-w-6xl mx-auto mt-10 lg:mt-20 space-y-6">
-        <article class="max-w-4xl mx-auto lg:grid lg:grid-cols-12 gap-x-10">
-            <div class="col-span-4 lg:text-center lg:pt-14 mb-10">
+    <main class="mx-auto mt-10 max-w-6xl space-y-6 lg:mt-20">
+        <article class="mx-auto max-w-4xl gap-x-10 lg:grid lg:grid-cols-12">
+            <div class="col-span-4 mb-10 lg:pt-14 lg:text-center">
                 <img src="{{ $post->thumbnail }}" alt="" class="rounded-xl">
-                <p class="mt-4 block text-gray-400 text-xs">
+                <p class="mt-4 block text-xs text-gray-400">
                     Published <time>{{ $post->created_at->diffForHumans() }}</time>
                 </p>
-                <div class="flex items-center lg:justify-center text-sm mt-4">
+                <div class="mt-4 flex items-center text-sm lg:justify-center">
                     <img src="{{ url('/images/lary-avatar.svg') }}" alt="Lary avatar" />
                     <div class="ml-3 text-left">
                         <h5 class="font-bold">{{ $post->user->name }}</h5>
@@ -16,9 +16,9 @@
             </div>
 
             <div class="col-span-8">
-                <div class="hidden lg:flex justify-between mb-6">
+                <div class="mb-6 hidden justify-between lg:flex">
                     <a href="{{ route('posts') }}"
-                        class="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-blue-500">
+                        class="relative inline-flex items-center text-lg transition-colors duration-300 hover:text-blue-500">
                         <svg width="22" height="22" viewBox="0 0 22 22" class="mr-2">
                             <g fill="none" fill-rule="evenodd">
                                 <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z">
@@ -35,11 +35,11 @@
                     </div>
                 </div>
 
-                <h1 class="font-bold text-3xl lg:text-4xl mb-10">
+                <h1 class="mb-10 text-3xl font-bold lg:text-4xl">
                     {{ $post->title }}
                 </h1>
 
-                <div class="lg:text-lg leading-loose space-y-4">
+                <div class="space-y-4 leading-loose lg:text-lg">
                     {!! $post->body !!}
                 </div>
             </div>

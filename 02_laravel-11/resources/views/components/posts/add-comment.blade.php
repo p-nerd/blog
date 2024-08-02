@@ -1,10 +1,10 @@
 @props(['post'])
 
 <form action="{{ route('posts.comments.store', $post) }}" method="POST"
-    class="flex flex-col gap-5 border border-gray-200 p-6 rounded-xl bg-gray-100">
+    class="flex flex-col gap-5 rounded-xl border border-gray-200 bg-gray-100 p-6">
     @csrf
 
-    <header class="flex gap-4 items-center">
+    <header class="flex items-center gap-4">
         <img src="https://i.pravatar.cc/60?sig={{ auth()->id() }}" alt="" width="40" height="40"
             class="rounded-full" />
         <h2>Want to participate?</h2>
@@ -24,7 +24,7 @@
 
     <div class="flex justify-end">
         <button type="submit"
-            class="bg-blue-500 text-white uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-blue-600">
+            class="rounded-2xl bg-blue-500 px-10 py-2 text-xs font-semibold uppercase text-white hover:bg-blue-600">
             Comment
         </button>
     </div>

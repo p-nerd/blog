@@ -21,11 +21,14 @@ class AddRegisteredUserToNewsletter implements ShouldQueue
         try {
             $this->emailMarketer->subscribeToNewsletter($event->user->email);
         } catch (Exception $e) {
-            Log::error('Error in adding registered user to newsletter', [
-                'message' => $e->getMessage(),
-                'code' => $e->getCode(),
-                'line' => $e->getLine(),
-            ]);
+            Log::error(
+                'Error in adding registered user to newsletter',
+                [
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode(),
+                    'line' => $e->getLine(),
+                ]
+            );
         }
     }
 }
